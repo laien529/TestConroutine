@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-TestConroutine/Pods-TestConroutine-frameworks.sh
+${BUILT_PRODUCTS_DIR}/cocore/cocore.framework
+${BUILT_PRODUCTS_DIR}/coobjc/coobjc.framework
