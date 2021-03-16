@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NetDetector.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TestWeakHttpController : UIViewController
+@interface TestWeakHttpController : UIViewController<NetworkDetectorDelegate>
 
 @end
 

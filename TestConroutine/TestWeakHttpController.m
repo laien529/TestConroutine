@@ -9,6 +9,8 @@
 #import "TestWeakHttpController.h"
 
 @interface TestWeakHttpController ()
+@property (weak, nonatomic) IBOutlet UILabel *lbHttpRtt;
+@property (weak, nonatomic) IBOutlet UILabel *lbThroughput;
 
 @end
 
@@ -23,6 +25,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     
 }
+
+
 /*
 #pragma mark - Navigation
 
@@ -33,4 +37,29 @@
 }
 */
 
+#pragma - --mark NetDetectDelegate
+
+- (void)statusDidChanged:(NetStatus *)status {
+    switch (status.netStatus) {
+        case NetDetectStatusWeak:{
+            self.view.backgroundColor = UIColor.redColor;
+            break;
+        }
+        case NetDetectStatusGreat:{
+            self.view.backgroundColor = UIColor.greenColor;
+
+            break;
+        }
+        case NetDetectStatusNormal:{
+            self.view.backgroundColor = UIColor.whiteColor;
+            break;
+        }
+        case NetDetectStatusUnknown:{
+            self.view.backgroundColor = UIColor.lightGrayColor;
+            break;
+        }
+        default:
+            break;
+    }
+}
 @end
