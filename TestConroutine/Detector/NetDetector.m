@@ -48,6 +48,7 @@ NSInteger BatchSize = 5;
 }
 
 - (void)registService:(id)observer {
+    self.delegate = observer;
     [[NSNotificationCenter defaultCenter] addObserver:observer selector:@selector(statusDidChanged:) name:serviceName object:nil];
     [observersMap setObject:observer forKey:NSStringFromClass(observersMap.class)];
 }
@@ -78,7 +79,9 @@ NSInteger BatchSize = 5;
     [thp_batch addObject:metrics];
     __weak typeof(self) weakSelf = self;
     [[DetectorPolicy sharedPolicy] setDetectResultBlock:^(NetStatus *status) {
-        [weakSelf.delegate statusDidChanged:status];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.delegate statusDidChanged:status];
+        });
     }];
     [[DetectorPolicy sharedPolicy] startDetectTrigger];
     [[DetectorPolicy sharedPolicy] inputHttprtt:metrics.time_HTTPRtt];

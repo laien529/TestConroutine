@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NetDetector : NSObject
 
-@property(nonatomic, copy)id<NetworkDetectorDelegate> delegate;
+@property(nonatomic, weak)id<NetworkDetectorDelegate> delegate;
 
 + (instancetype)sharedDetector;
 - (void)registService:(id)observer;
