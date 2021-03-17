@@ -27,7 +27,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     //@"https://img.alicdn.com/tfs/TB148AkSFXXXXa3apXXXXXXXXXX-1130-500.jpg_q100.jpg_.webp"
     //http://172.28.125.111:8888/json/startConfig.json?r=%f
-    [[NetworkModel sharedModel] requestWithMethod:@"GET" url:[NSString stringWithFormat:@"http://192.168.50.93:8080/startConfig.json?r=%f", [NSDate timeIntervalSinceReferenceDate]] params:@{}];
+    //@"http://192.168.50.93:8080/startConfig.json?r=%f"
+    [[NetworkModel sharedModel] requestWithMethod:@"GET" url:[NSString stringWithFormat:@"http://172.28.125.111:8888/json/startConfig.json?r=%f", [NSDate timeIntervalSinceReferenceDate]] params:@{}];
 }
 
 /*
