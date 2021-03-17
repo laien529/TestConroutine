@@ -51,7 +51,7 @@
         NSLog(@"Try to insert but %@",@"Locked");
         return;
     }
-    NSLog(@"Try to insert %@ with %@",tableName, data );
+//    NSLog(@"Try to insert %@ with %@",tableName, data );
     NSMutableArray *table = [cacheMap objectForKey:tableName];
     if (table) {
         [table addObject:data];

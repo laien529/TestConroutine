@@ -38,6 +38,7 @@ NSInteger BatchSize = 5;
         [[NetworkModel sharedModel] setMetricsBlock:^(MetricsModel * _Nonnull metrics) {
             [weakSelf preprocessInputs:metrics];
         }];
+        [[DetectorPolicy sharedPolicy] startDetectTrigger];
     }
     return self;
 }
@@ -83,7 +84,6 @@ NSInteger BatchSize = 5;
             [weakSelf.delegate statusDidChanged:status];
         });
     }];
-    [[DetectorPolicy sharedPolicy] startDetectTrigger];
     [[DetectorPolicy sharedPolicy] inputHttprtt:metrics.time_HTTPRtt];
     
     if (thp_batch.count >= BatchSize) { //吞吐量批量处理
