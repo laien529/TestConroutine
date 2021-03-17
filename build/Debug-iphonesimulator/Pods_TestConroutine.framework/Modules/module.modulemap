@@ -1,0 +1,6 @@
+framework module Pods_TestConroutine {
+  umbrella header "Pods-TestConroutine-umbrella.h"
+
+  export *
+  module * { export * }
+}

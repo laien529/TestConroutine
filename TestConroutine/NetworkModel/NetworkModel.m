@@ -33,7 +33,12 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+
+        
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+//        config.HTTPAdditionalHeaders = @{@"User-Agent":@"Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"};
+        _manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:config];
+        _manager.responseSerializer = [AFJSONResponseSerializer serializer];
         __weak typeof(self) weakSelf = self;
         if (@available(iOS 10.2, *)) {
             [_manager setTaskDidFinishCollectingMetricsBlock:^(NSURLSession * _Nonnull session, NSURLSessionTask * _Nonnull task, NSURLSessionTaskMetrics * _Nullable metrics) {
@@ -45,26 +50,26 @@
 }
 
 - (void)requestWithMethod:(nonnull NSString *)method url:(nonnull NSString *)url params:(nullable NSDictionary *)params {
-    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:url parameters:params error:nil];
-    
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] requestWithMethod:method URLString:url parameters:params error:nil];
 
-
-    NSURLSessionUploadTask *uploadTask;
+    NSURLSessionDataTask *uploadTask;
     uploadTask = [_manager
-                  uploadTaskWithStreamedRequest:request
-                  progress:^(NSProgress * _Nonnull uploadProgress) {
+                  dataTaskWithRequest:request
+                  uploadProgress:^(NSProgress * _Nonnull uploadProgress) {
                       // This is not called back on the main queue.
                       // You are responsible for dispatching to the main queue for UI updates
                       dispatch_async(dispatch_get_main_queue(), ^{
                           //Update the progress view
                          
                       });
-                  }
+    } downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    }
                   completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
                       if (error) {
                           NSLog(@"Error: %@", error);
                       } else {
-                          NSLog(@"%@ %@", response, responseObject);
+//                          NSLog(@"%@ %@", response, responseObject);
                       }
                   }];
 
@@ -133,6 +138,33 @@
         }
         metricsModel.time_Request = time_Response;
         
+        NSTimeInterval time_HTTPRtt = 0;
+        if (transactionMetrics.responseStartDate.timeIntervalSince1970 > 0) {
+            time_HTTPRtt = [transactionMetrics.responseStartDate timeIntervalSinceDate:transactionMetrics.requestStartDate];
+        }
+        NSLog(@"time_HTTPRtt:%f seconds",time_HTTPRtt);
+
+        float down_throughput = 0;
+        int64_t down_h = transactionMetrics.countOfResponseHeaderBytesReceived;
+        int64_t down_body = transactionMetrics.countOfResponseBodyBytesReceived;
+        down_throughput = (down_h + down_body) / (1024*1024*time_Response);
+        NSLog(@"down_h:%lld Bytes",down_h);
+        NSLog(@"down_body:%lld Bytes",down_body);
+        NSLog(@"time_Response:%f seconds",time_Response);
+
+        NSLog(@"down_throughput:%f MB",down_throughput);
+
+        float up_throughput = 0;
+        int64_t up_h = transactionMetrics.countOfRequestHeaderBytesSent;
+        int64_t up_body = transactionMetrics.countOfRequestBodyBytesSent;
+        up_throughput = (up_h + up_body) / (1024*1024*time_Request);
+
+        NSLog(@"up_h:%lld Bytes",up_h);
+        NSLog(@"up_body:%lld Bytes",up_body);
+        NSLog(@"time_Request:%f seconds",time_Request);
+
+        NSLog(@"up_throughput:%f MB",up_throughput);
+
         NSTimeInterval t1 = 0;
         if (transactionMetrics.connectStartDate.timeIntervalSince1970 > 0 && transactionMetrics.domainLookupEndDate.timeIntervalSince1970 > 0) {
             t1 = [transactionMetrics.connectStartDate timeIntervalSinceDate:transactionMetrics.domainLookupEndDate];

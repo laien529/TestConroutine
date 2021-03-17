@@ -7,6 +7,7 @@
 //
 
 #import "TestWeakHttpController.h"
+#import "NetworkModel.h"
 
 @interface TestWeakHttpController ()
 @property (weak, nonatomic) IBOutlet UILabel *lbHttpRtt;
@@ -18,14 +19,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = UIColor.greenColor;
+    self.view.backgroundColor = UIColor.whiteColor;
     // Do any additional setup after loading the view from its nib.
+    [[NetDetector sharedDetector] registService:self];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    
+    //@"https://img.alicdn.com/tfs/TB148AkSFXXXXa3apXXXXXXXXXX-1130-500.jpg_q100.jpg_.webp"
+    //http://172.28.125.111:8888/json/startConfig.json?r=%f
+    [[NetworkModel sharedModel] requestWithMethod:@"GET" url:[NSString stringWithFormat:@"http://192.168.50.93:8080/startConfig.json?r=%f", [NSDate timeIntervalSinceReferenceDate]] params:@{}];
 }
-
 
 /*
 #pragma mark - Navigation
