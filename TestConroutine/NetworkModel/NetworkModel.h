@@ -7,21 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "MetricsModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
-
-@interface MetricsModel : NSObject
-@property(nonatomic, strong) NSString *domainIP;
-@property(nonatomic, strong) NSString *url;
-@property(nonatomic, assign) NSTimeInterval time_DNS;
-@property(nonatomic, assign) NSTimeInterval time_TCP;
-@property(nonatomic, assign) NSTimeInterval time_Request;
-@property(nonatomic, assign) NSTimeInterval time_HTTP;
-@property(nonatomic, assign) NSTimeInterval time_Response;
-@property(nonatomic, assign) NSTimeInterval taskInterval;
-
-@end
 
 typedef void(^MetricsBlock)(MetricsModel* metrics);
 
@@ -31,6 +19,7 @@ typedef void(^MetricsBlock)(MetricsModel* metrics);
 @property(nonatomic, copy) MetricsBlock metricsBlock;
 
 + (instancetype)sharedModel;
+
 - (void)requestWithMethod:(nonnull NSString*)method url:(nonnull NSString*)url params:(nullable NSDictionary*)params;
 @end
 

@@ -9,9 +9,6 @@
 #import "NetworkModel.h"
 #import "AFNetworking.h"
 
-@implementation MetricsModel
-
-@end
 
 @interface NetworkModel () {
     AFURLSessionManager *_manager;
@@ -36,7 +33,7 @@
 
         
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-//        config.HTTPAdditionalHeaders = @{@"User-Agent":@"Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36"};
+
         _manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:config];
         _manager.responseSerializer = [AFJSONResponseSerializer serializer];
         __weak typeof(self) weakSelf = self;
@@ -62,16 +59,15 @@
                           //Update the progress view
                          
                       });
-    } downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
-        
-    }
-                  completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+                } downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
+                    
+                } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
                       if (error) {
                           NSLog(@"Error: %@", error);
                       } else {
 //                          NSLog(@"%@ %@", response, responseObject);
                       }
-                  }];
+                }];
 
     [uploadTask resume];
 }
@@ -84,7 +80,8 @@
         NSURLSessionTaskTransactionMetrics *transactionMetrics = metrics.transactionMetrics.firstObject;
         
         NSString *url = [NSString stringWithFormat:@"%@%@",transactionMetrics.request.URL.host,transactionMetrics.request.URL.path] ;
-
+        metricsModel.url = url;
+        
         NSTimeInterval taskInterval = metrics.taskInterval.duration;
         metricsModel.taskInterval = taskInterval;
         
@@ -136,35 +133,40 @@
         if (transactionMetrics.responseEndDate.timeIntervalSince1970 > 0) {
             time_Response = [transactionMetrics.responseEndDate timeIntervalSinceDate:transactionMetrics.responseStartDate];
         }
-        metricsModel.time_Request = time_Response;
+        metricsModel.time_Response = time_Response;
         
         NSTimeInterval time_HTTPRtt = 0;
         if (transactionMetrics.responseStartDate.timeIntervalSince1970 > 0) {
             time_HTTPRtt = [transactionMetrics.responseStartDate timeIntervalSinceDate:transactionMetrics.requestStartDate];
         }
-        NSLog(@"time_HTTPRtt:%f seconds",time_HTTPRtt);
+//        NSLog(@"time_HTTPRtt:%f seconds",time_HTTPRtt);
+        metricsModel.time_HTTPRtt = time_HTTPRtt;
 
-        float down_throughput = 0;
+//        float down_throughput = 0;
         int64_t down_h = transactionMetrics.countOfResponseHeaderBytesReceived;
         int64_t down_body = transactionMetrics.countOfResponseBodyBytesReceived;
-        down_throughput = (down_h + down_body) / (1024*1024*time_Response);
-        NSLog(@"down_h:%lld Bytes",down_h);
-        NSLog(@"down_body:%lld Bytes",down_body);
-        NSLog(@"time_Response:%f seconds",time_Response);
+//        down_throughput = (down_h + down_body) / (1024*1024*time_Response);
+//        NSLog(@"down_h:%lld Bytes",down_h);
+//        NSLog(@"down_body:%lld Bytes",down_body);
+//        NSLog(@"time_Response:%f seconds",time_Response);
+//
+//        NSLog(@"down_throughput:%f MB",down_throughput);
+        metricsModel.down_header = down_h;
+        metricsModel.down_body = down_body;
 
-        NSLog(@"down_throughput:%f MB",down_throughput);
-
-        float up_throughput = 0;
+//        float up_throughput = 0;
         int64_t up_h = transactionMetrics.countOfRequestHeaderBytesSent;
         int64_t up_body = transactionMetrics.countOfRequestBodyBytesSent;
-        up_throughput = (up_h + up_body) / (1024*1024*time_Request);
+//        up_throughput = (up_h + up_body) / (1024*1024*time_Request);
 
-        NSLog(@"up_h:%lld Bytes",up_h);
-        NSLog(@"up_body:%lld Bytes",up_body);
-        NSLog(@"time_Request:%f seconds",time_Request);
-
-        NSLog(@"up_throughput:%f MB",up_throughput);
-
+//        NSLog(@"up_h:%lld Bytes",up_h);
+//        NSLog(@"up_body:%lld Bytes",up_body);
+//        NSLog(@"time_Request:%f seconds",time_Request);
+//
+//        NSLog(@"up_throughput:%f MB",up_throughput);
+        metricsModel.up_header = up_h;
+        metricsModel.up_body = up_body;
+        
         NSTimeInterval t1 = 0;
         if (transactionMetrics.connectStartDate.timeIntervalSince1970 > 0 && transactionMetrics.domainLookupEndDate.timeIntervalSince1970 > 0) {
             t1 = [transactionMetrics.connectStartDate timeIntervalSinceDate:transactionMetrics.domainLookupEndDate];
