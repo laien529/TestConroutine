@@ -30,10 +30,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-
-        
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-
         _manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:config];
         _manager.responseSerializer = [AFJSONResponseSerializer serializer];
         __weak typeof(self) weakSelf = self;
@@ -74,7 +71,6 @@
 
 - (void)metricsBlockActionWithSession:(NSURLSession *)session task:(NSURLSessionTask*)task metrics:(NSURLSessionTaskMetrics*)metrics {
     @try {
-       
         MetricsModel *metricsModel = [[MetricsModel alloc] init];
 
         NSURLSessionTaskTransactionMetrics *transactionMetrics = metrics.transactionMetrics.firstObject;
@@ -139,31 +135,18 @@
         if (transactionMetrics.responseStartDate.timeIntervalSince1970 > 0) {
             time_HTTPRtt = [transactionMetrics.responseStartDate timeIntervalSinceDate:transactionMetrics.requestStartDate];
         }
-//        NSLog(@"time_HTTPRtt:%f seconds",time_HTTPRtt);
+
         metricsModel.time_HTTPRtt = time_HTTPRtt;
 
-//        float down_throughput = 0;
         int64_t down_h = transactionMetrics.countOfResponseHeaderBytesReceived;
         int64_t down_body = transactionMetrics.countOfResponseBodyBytesReceived;
-//        down_throughput = (down_h + down_body) / (1024*1024*time_Response);
-//        NSLog(@"down_h:%lld Bytes",down_h);
-//        NSLog(@"down_body:%lld Bytes",down_body);
-//        NSLog(@"time_Response:%f seconds",time_Response);
-//
-//        NSLog(@"down_throughput:%f MB",down_throughput);
+
         metricsModel.down_header = down_h;
         metricsModel.down_body = down_body;
 
-//        float up_throughput = 0;
         int64_t up_h = transactionMetrics.countOfRequestHeaderBytesSent;
         int64_t up_body = transactionMetrics.countOfRequestBodyBytesSent;
-//        up_throughput = (up_h + up_body) / (1024*1024*time_Request);
 
-//        NSLog(@"up_h:%lld Bytes",up_h);
-//        NSLog(@"up_body:%lld Bytes",up_body);
-//        NSLog(@"time_Request:%f seconds",time_Request);
-//
-//        NSLog(@"up_throughput:%f MB",up_throughput);
         metricsModel.up_header = up_h;
         metricsModel.up_body = up_body;
         
@@ -178,8 +161,6 @@
         if (_metricsBlock) {
             _metricsBlock(metricsModel);
         }
-
-
     } @catch (NSException *exception) {
         
     } @finally {
