@@ -16,13 +16,7 @@ typedef NS_ENUM(NSUInteger, NetDetectStatus) {
     NetDetectStatusUnknown
 };
 
-@interface NetStatus : NSObject
-
-@property(assign, nonatomic) NetDetectStatus netStatus;
-@property(strong, nonatomic) NSNumber *httpRtt;    //ms
-@property(strong, nonatomic) NSNumber *throughput; //KB per second
-
-@end
+@class NetStatus;
 
 @protocol NetworkDetectorDelegate <NSObject>
 

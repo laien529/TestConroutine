@@ -20,6 +20,9 @@
 - (IBAction)requestOnce:(id)sender {
     [self requestOnce];
 }
+- (IBAction)requestBatch:(id)sender {
+    [self requestBatch];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,6 +40,14 @@
 
 - (void)requestOnce {
     [[NetworkModel sharedModel] requestWithMethod:@"GET" url:[NSString stringWithFormat:@"http://172.28.125.111:8888/json/startConfig.json?r=%f", [NSDate timeIntervalSinceReferenceDate]] params:@{}];
+}
+
+- (void)requestBatch {
+    NSInteger times = 10;
+    for (int i = 0; i < times; i++) {
+        [NSThread sleepForTimeInterval:0.1];
+        [self requestOnce];
+    }
 }
 
 /*
@@ -73,5 +84,9 @@
         default:
             break;
     }
+}
+
+- (void)dealloc {
+    [[DetectorPolicy sharedPolicy] stopDetectTrigger];
 }
 @end

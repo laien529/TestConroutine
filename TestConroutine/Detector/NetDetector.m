@@ -7,7 +7,6 @@
 //
 
 #import "NetDetector.h"
-#import "DetectorPolicy.h"
 
 NSString * const serviceName = @"NetworkDetect";
 NSInteger BatchSize = 5;
@@ -77,7 +76,11 @@ NSInteger BatchSize = 5;
 - (void)preprocessInputs:(MetricsModel*)metrics {
     
     [thp_batch addObject:metrics];
-    
+    __weak typeof(self) weakSelf = self;
+    [[DetectorPolicy sharedPolicy] setDetectResultBlock:^(NetStatus *status) {
+        [weakSelf.delegate statusDidChanged:status];
+    }];
+    [[DetectorPolicy sharedPolicy] startDetectTrigger];
     [[DetectorPolicy sharedPolicy] inputHttprtt:metrics.time_HTTPRtt];
     
     if (thp_batch.count >= BatchSize) { //吞吐量批量处理

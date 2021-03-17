@@ -10,6 +10,7 @@
 
 @interface DetectCache () {
     NSMutableDictionary *cacheMap;
+    BOOL fetchLock;
 }
 
 @end
@@ -34,13 +35,22 @@
 }
 
 - (NSArray*)fetchDataByTableName:(NSString*)tableName {
-    if ([cacheMap objectForKey:tableName]) {
-        return [cacheMap objectForKey:tableName];
+    NSArray *cache = [cacheMap objectForKey:tableName];
+    if (cache) {
+        fetchLock = YES;
+        NSArray *fetchCopy = [cache copy];
+        [self emptyTableByName:tableName];
+        fetchLock = NO;
+        return fetchCopy;
     }
     return nil;
 }
 
 - (void)insertDataToTableName:(NSString*)tableName data:(id)data {
+    if (fetchLock) {
+        NSLog(@"Try to insert but %@",@"Locked");
+        return;
+    }
     NSLog(@"Try to insert %@ with %@",tableName, data );
     NSMutableArray *table = [cacheMap objectForKey:tableName];
     if (table) {

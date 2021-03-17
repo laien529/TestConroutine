@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NetworkDetectorDelegate.h"
 #import "NetworkModel.h"
+#import "DetectorPolicy.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

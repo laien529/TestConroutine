@@ -66,29 +66,40 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1U-V3-0CR">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1U-V3-0CR">
                     <rect key="frame" x="25" y="74" width="98" height="32"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <state key="normal" title="手动请求一次"/>
                     <connections>
                         <action selector="requestOnce:" destination="-1" eventType="touchUpInside" id="Ekg-dh-PLX"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LBr-SF-76G">
+                    <rect key="frame" x="296" y="74" width="98" height="32"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="手动请求多次"/>
+                    <connections>
+                        <action selector="requestBatch:" destination="-1" eventType="touchUpInside" id="D8v-kW-XAt"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="LBr-SF-76G" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="30" id="2WN-iK-5cd"/>
                 <constraint firstItem="gfc-55-AmZ" firstAttribute="leading" secondItem="oki-Ba-9nU" secondAttribute="trailing" constant="30" id="79J-ay-0SA"/>
                 <constraint firstItem="J7t-jv-LYl" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="136" id="CUK-rQ-53p"/>
                 <constraint firstItem="oki-Ba-9nU" firstAttribute="leading" secondItem="J7t-jv-LYl" secondAttribute="leading" id="Erq-Q1-HlR"/>
+                <constraint firstItem="l1U-V3-0CR" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="25" id="FLC-pR-Dry"/>
                 <constraint firstItem="gfc-55-AmZ" firstAttribute="height" secondItem="oki-Ba-9nU" secondAttribute="height" id="Q7K-fk-Udh"/>
                 <constraint firstItem="3Da-yf-mry" firstAttribute="height" secondItem="J7t-jv-LYl" secondAttribute="height" id="Ur5-gU-0we"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="5Us-Fh-EbK" secondAttribute="bottom" constant="288" id="Vzq-ik-ckj"/>
                 <constraint firstItem="oki-Ba-9nU" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="186" id="Znh-7m-31K"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="LBr-SF-76G" secondAttribute="trailing" constant="20" id="oVJ-83-b2P"/>
                 <constraint firstItem="gfc-55-AmZ" firstAttribute="top" secondItem="oki-Ba-9nU" secondAttribute="top" id="pk2-hR-QjR"/>
                 <constraint firstItem="3Da-yf-mry" firstAttribute="leading" secondItem="J7t-jv-LYl" secondAttribute="trailing" constant="30" id="q05-Ig-saO"/>
                 <constraint firstItem="5Us-Fh-EbK" firstAttribute="centerX" secondItem="Q5M-cg-NOt" secondAttribute="centerX" id="wbS-cl-GBp"/>
+                <constraint firstItem="l1U-V3-0CR" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="30" id="wrL-5c-Rcc"/>
                 <constraint firstItem="3Da-yf-mry" firstAttribute="top" secondItem="J7t-jv-LYl" secondAttribute="top" id="xTF-VS-hfV"/>
                 <constraint firstItem="J7t-jv-LYl" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="50" id="xvM-qs-hui"/>
             </constraints>
