@@ -17,7 +17,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbGreatHttpThreshold;
 @property (weak, nonatomic) IBOutlet UILabel *lbWeakThroughputThreshold;
 @property (weak, nonatomic) IBOutlet UILabel *lbGreatThroughputThreshold;
-
+@property (weak, nonatomic) IBOutlet UISlider *sliderWeakHttprtt;
+@property (weak, nonatomic) IBOutlet UISlider *sliderGreatHttprtt;
+@property (weak, nonatomic) IBOutlet UISlider *sliderWeakThroughput;
+@property (weak, nonatomic) IBOutlet UISlider *sliderGreatThroughput;
 @end
 
 @implementation TestWeakHttpController
@@ -67,6 +70,11 @@
     self.view.backgroundColor = UIColor.whiteColor;
     // Do any additional setup after loading the view from its nib.
     [[NetDetector sharedDetector] registService:self];
+    _sliderWeakHttprtt.value = _lbWeakHttpThreshold.text.floatValue;
+    _sliderGreatHttprtt.value = _lbGreatHttpThreshold.text.floatValue;
+    _sliderWeakThroughput.value = _lbWeakThroughputThreshold.text.floatValue;
+    _sliderGreatThroughput.value = _lbGreatThroughputThreshold.text.floatValue;
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {

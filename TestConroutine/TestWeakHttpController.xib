@@ -18,6 +18,10 @@
                 <outlet property="lbThroughput" destination="gfc-55-AmZ" id="k7V-BF-Bp3"/>
                 <outlet property="lbWeakHttpThreshold" destination="8B0-gA-Y7a" id="P05-Zh-IJ5"/>
                 <outlet property="lbWeakThroughputThreshold" destination="L1X-Zq-lcz" id="Noe-HU-fS2"/>
+                <outlet property="sliderGreatHttprtt" destination="7rE-Zp-wrm" id="HPr-Od-rdx"/>
+                <outlet property="sliderGreatThroughput" destination="KU0-26-rTH" id="rPw-go-4mA"/>
+                <outlet property="sliderWeakHttprtt" destination="3wj-97-ULF" id="pmU-YF-8Ao"/>
+                <outlet property="sliderWeakThroughput" destination="XEm-3H-qI2" id="EfD-Ak-4C1"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
