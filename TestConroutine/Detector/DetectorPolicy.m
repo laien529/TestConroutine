@@ -14,6 +14,11 @@
 @end
 
 NSTimeInterval const triggerInterval = 10; //seconds 下发触发间隔
+NSTimeInterval const threshold_httprtt_weak = 1.0;
+NSTimeInterval const threshold_httprtt_great = 0.3;
+NSTimeInterval const threshold_throughput_weak = 0.2;
+NSTimeInterval const threshold_throughput_great = 2.0;
+
 NSString* const table_httprtt = @"httprtt";
 NSString* const table_throughput_down = @"Throughput_down";
 NSString* const table_throughput_up = @"Throughput_up";
@@ -119,10 +124,12 @@ typedef struct DetectResult DetectResult;
     if (httprtt == 0) {
         return NetDetectStatusUnknown;
     }
-    if (httprtt < 0.3) {
+    if (httprtt <= threshold_httprtt_great) {
         return NetDetectStatusGreat;
-    } else {
+    } else if (httprtt >= threshold_httprtt_weak) {
         return NetDetectStatusWeak;
+    } else {
+        return NetDetectStatusNormal;
     }
 }
 
@@ -130,10 +137,12 @@ typedef struct DetectResult DetectResult;
     if (throughput == 0) {
         return NetDetectStatusUnknown;
     }
-    if (throughput > 0.5) {
+    if (throughput >= threshold_throughput_great) {
         return NetDetectStatusGreat;
-    } else {
+    } else if (throughput <= threshold_throughput_weak) {
         return NetDetectStatusWeak;
+    } else {
+        return NetDetectStatusNormal;
     }
 }
 
