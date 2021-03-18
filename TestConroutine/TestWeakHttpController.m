@@ -13,17 +13,54 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbHttpRtt;
 @property (weak, nonatomic) IBOutlet UILabel *lbThroughput;
 @property (weak, nonatomic) IBOutlet UILabel *lbNetStatus;
+@property (weak, nonatomic) IBOutlet UILabel *lbWeakHttpThreshold;
+@property (weak, nonatomic) IBOutlet UILabel *lbGreatHttpThreshold;
+@property (weak, nonatomic) IBOutlet UILabel *lbWeakThroughputThreshold;
+@property (weak, nonatomic) IBOutlet UILabel *lbGreatThroughputThreshold;
 
 @end
 
 @implementation TestWeakHttpController
 
+
 - (IBAction)requestOnce:(id)sender {
     [self requestOnce];
+    [self setupThreshold];
 }
+
 - (IBAction)requestBatch:(id)sender {
     [self requestBatch];
+    [self setupThreshold];
 }
+
+- (IBAction)weak_http:(id)sender {
+    UISlider *slider = sender;
+    _lbWeakHttpThreshold.text = [NSString stringWithFormat:@"%.0f", slider.value];
+}
+
+- (IBAction)great_http:(id)sender {
+    UISlider *slider = sender;
+    _lbGreatHttpThreshold.text = [NSString stringWithFormat:@"%.0f", slider.value];
+}
+
+- (IBAction)weak_throughput:(id)sender {
+    UISlider *slider = sender;
+    _lbWeakThroughputThreshold.text = [NSString stringWithFormat:@"%.2f", slider.value];
+}
+
+- (IBAction)greate_throughput:(id)sender {
+    UISlider *slider = sender;
+    _lbGreatThroughputThreshold.text = [NSString stringWithFormat:@"%.2f", slider.value];
+}
+
+- (void)setupThreshold {
+    [[NSUserDefaults standardUserDefaults] setObject:_lbWeakHttpThreshold.text forKey:@"WeakHttpThreshold"];
+    [[NSUserDefaults standardUserDefaults] setObject:_lbGreatHttpThreshold.text forKey:@"GreatHttpThreshold"];
+    [[NSUserDefaults standardUserDefaults] setObject:_lbWeakThroughputThreshold.text forKey:@"WeakThroughputThreshold"];
+    [[NSUserDefaults standardUserDefaults] setObject:_lbGreatThroughputThreshold.text forKey:@"GreatThroughputThreshold"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,11 +75,10 @@
     //@"http://192.168.50.93:8080/startConfig.json?r=%f"
     //@"http://172.28.214.56:8088/startConfig.json?r=%f"
 
-    [self requestOnce];
 }
 
 - (void)requestOnce {
-    [[NetworkModel sharedModel] requestWithMethod:@"GET" url:[NSString stringWithFormat:@"http://172.28.214.56:8088/startConfig.json?r=%f", [NSDate timeIntervalSinceReferenceDate]] params:@{}];
+    [[NetworkModel sharedModel] requestWithMethod:@"GET" url:[NSString stringWithFormat:@"http://platconf.api.mgtv.com/app/startConfig?platform=android&appVersion=6.7.7&osVersion=9.1&osType=ios&did=4232jfldsfjsdlfsdfdsfsdf&ticket=&uuid=&mf=apple&src=mgtv?r=%f", [NSDate timeIntervalSinceReferenceDate]] params:@{}];
 }
 
 - (void)requestBatch {
@@ -54,16 +90,6 @@
         });
     }
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 #pragma - --mark NetDetectDelegate
 

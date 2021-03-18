@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04B89F3BFB245E0B06DF7D7D /* Pods_TestConroutine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9098B8CA88EFBBD79A0EBC6F /* Pods_TestConroutine.framework */; };
+		877F483A2603530300242B38 /* ThresholdModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 877F48392603530300242B38 /* ThresholdModel.m */; };
 		B031450925FF41C5003A659F /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B031450825FF41C5003A659F /* ViewController.xib */; };
 		B031450E25FF42A2003A659F /* TestWeakHttpController.m in Sources */ = {isa = PBXBuildFile; fileRef = B031450C25FF42A2003A659F /* TestWeakHttpController.m */; };
 		B031450F25FF42A2003A659F /* TestWeakHttpController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B031450D25FF42A2003A659F /* TestWeakHttpController.xib */; };
@@ -36,6 +37,8 @@
 
 /* Begin PBXFileReference section */
 		0712C7E4C0F623DD78CF66B3 /* Pods-TestConroutine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestConroutine.debug.xcconfig"; path = "Target Support Files/Pods-TestConroutine/Pods-TestConroutine.debug.xcconfig"; sourceTree = "<group>"; };
+		877F48382603530300242B38 /* ThresholdModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThresholdModel.h; sourceTree = "<group>"; };
+		877F48392603530300242B38 /* ThresholdModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThresholdModel.m; sourceTree = "<group>"; };
 		9098B8CA88EFBBD79A0EBC6F /* Pods_TestConroutine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestConroutine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFBE93919BE0F586FCEFE6A1 /* Pods-TestConroutine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestConroutine.release.xcconfig"; path = "Target Support Files/Pods-TestConroutine/Pods-TestConroutine.release.xcconfig"; sourceTree = "<group>"; };
 		B031450825FF41C5003A659F /* ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
@@ -127,6 +130,8 @@
 				B05679B32601969D001AC6DC /* DetectorPolicy.m */,
 				B05679C42601AA4E001AC6DC /* DetectCache.h */,
 				B05679C52601AA4E001AC6DC /* DetectCache.m */,
+				877F48382603530300242B38 /* ThresholdModel.h */,
+				877F48392603530300242B38 /* ThresholdModel.m */,
 			);
 			path = Detector;
 			sourceTree = "<group>";
@@ -345,6 +350,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B03145C226005779003A659F /* AFHTTPRequestOperation.m in Sources */,
+				877F483A2603530300242B38 /* ThresholdModel.m in Sources */,
 				B0DC327A23100C6A00D7278A /* ViewController.m in Sources */,
 				B0DC327423100C6A00D7278A /* AppDelegate.m in Sources */,
 				B03145BD26005779003A659F /* AFHTTPSessionManager.m in Sources */,

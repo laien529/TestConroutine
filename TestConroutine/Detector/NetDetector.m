@@ -95,8 +95,9 @@ NSInteger BatchSize = 5;
         
         [self processThroughputData:&batch_down_tp batch_up_tp:&batch_up_tp];
         
-        [[DetectorPolicy sharedPolicy] inputThroughput_up:batch_up_tp];
+//        [[DetectorPolicy sharedPolicy] inputThroughput_up:batch_up_tp];
         [[DetectorPolicy sharedPolicy] inputThroughput_down:batch_down_tp];
+        [thp_batch removeAllObjects];
     }
 }
 

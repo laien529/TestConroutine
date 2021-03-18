@@ -14,10 +14,10 @@
 @end
 
 NSTimeInterval const triggerInterval = 10; //seconds 下发触发间隔
-NSTimeInterval const threshold_httprtt_weak = 1.0;
-NSTimeInterval const threshold_httprtt_great = 0.3;
-NSTimeInterval const threshold_throughput_weak = 0.2;
-NSTimeInterval const threshold_throughput_great = 2.0;
+//NSTimeInterval const threshold_httprtt_weak = 1.0;
+//NSTimeInterval const threshold_httprtt_great = 0.3;
+//NSTimeInterval const threshold_throughput_weak = 0.2;
+//NSTimeInterval const threshold_throughput_great = 2.0;
 
 NSString* const table_httprtt = @"httprtt";
 NSString* const table_throughput_down = @"Throughput_down";
@@ -31,6 +31,11 @@ typedef struct DetectResult DetectResult;
 
 @interface DetectorPolicy () {
     NSTimer *triggerTimer;
+    
+    NSTimeInterval threshold_httprtt_weak;
+    NSTimeInterval threshold_httprtt_great;
+    NSTimeInterval threshold_throughput_weak;
+    NSTimeInterval threshold_throughput_great;
 }
 
 @end
@@ -65,7 +70,15 @@ typedef struct DetectResult DetectResult;
 }
 
 - (void)judgeNetworkStatus {
-    
+    NSString *WeakHttpThreshold = [[NSUserDefaults standardUserDefaults] objectForKey:@"WeakHttpThreshold"];
+    NSString *GreatHttpThreshold = [[NSUserDefaults standardUserDefaults] objectForKey:@"GreatHttpThreshold"];
+    NSString *WeakThroughputThreshold = [[NSUserDefaults standardUserDefaults] objectForKey:@"WeakThroughputThreshold"];
+    NSString *GreatThroughputThreshold = [[NSUserDefaults standardUserDefaults] objectForKey:@"GreatThroughputThreshold"];
+    threshold_httprtt_weak = WeakHttpThreshold.floatValue / 1000;
+    threshold_httprtt_great = GreatHttpThreshold.floatValue / 1000;
+    threshold_throughput_weak = WeakThroughputThreshold.floatValue;
+    threshold_throughput_great = GreatThroughputThreshold.floatValue;
+
     if (_detectResultBlock) {
         
         NetStatus *status = [[NetStatus alloc] init];
@@ -79,7 +92,7 @@ typedef struct DetectResult DetectResult;
         
         if (httprttStatus == NetDetectStatusGreat && throughput_downStatus == NetDetectStatusGreat) {
             judgedStatus = NetDetectStatusGreat;
-        } else if (httprttStatus == NetDetectStatusWeak || throughput_downStatus == NetDetectStatusWeak) {
+        } else if (httprttStatus == NetDetectStatusWeak && throughput_downStatus == NetDetectStatusWeak) {
             judgedStatus = NetDetectStatusWeak;
         } else if (httprttStatus == NetDetectStatusUnknown || throughput_downStatus == NetDetectStatusUnknown){
             judgedStatus = NetDetectStatusUnknown;
@@ -121,9 +134,9 @@ typedef struct DetectResult DetectResult;
 }
 
 - (NetDetectStatus)statusFromHttprttJudge:(float)httprtt {
-    if (httprtt == 0) {
-        return NetDetectStatusUnknown;
-    }
+//    if (httprtt == 0) {
+//        return NetDetectStatusUnknown;
+//    }
     if (httprtt <= threshold_httprtt_great) {
         return NetDetectStatusGreat;
     } else if (httprtt >= threshold_httprtt_weak) {
