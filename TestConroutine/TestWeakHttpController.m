@@ -78,7 +78,7 @@
 }
 
 - (void)requestOnce {
-    [[NetworkModel sharedModel] requestWithMethod:@"GET" url:[NSString stringWithFormat:@"http://platconf.api.mgtv.com/app/startConfig?platform=android&appVersion=6.7.7&osVersion=9.1&osType=ios&did=4232jfldsfjsdlfsdfdsfsdf&ticket=&uuid=&mf=apple&src=mgtv?r=%f", [NSDate timeIntervalSinceReferenceDate]] params:@{}];
+    [[NetworkModel sharedModel] requestWithMethod:@"GET" url:[NSString stringWithFormat:@"http://172.28.125.111:8888/json/startConfig.json?r=%f", [NSDate timeIntervalSinceReferenceDate]] params:@{}];
 }
 
 - (void)requestBatch {
