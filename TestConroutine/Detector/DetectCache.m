@@ -65,7 +65,12 @@
 - (void)emptyTableByName:(NSString*)tableName {
     NSMutableArray *table = [cacheMap objectForKey:tableName];
     if (table) {
+        NSLog(@"before clear /n%@",cacheMap);
+
         [table removeAllObjects];
+        NSLog(@"Try to Clear %@",tableName);
+        NSLog(@"after clear /n%@",cacheMap);
+
     }
 }
 

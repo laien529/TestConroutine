@@ -71,8 +71,8 @@ NSInteger BatchSize = 5;
         batch_up_interval += obj.time_Request;
         
     }];
-    *batch_down_tp = batch_down_bytes / (1024 * 1024 * batch_down_interval);
-    *batch_up_tp = batch_up_bytes / (1024 * 1024 * batch_up_interval);
+    *batch_down_tp = batch_down_interval == 0 ? 0 : batch_down_bytes / (1024 * 1024 * batch_down_interval);
+    *batch_up_tp = batch_up_interval == 0 ? 0 :batch_up_bytes / (1024 * 1024 * batch_up_interval);
 }
 
 - (void)preprocessInputs:(MetricsModel*)metrics {
@@ -84,8 +84,10 @@ NSInteger BatchSize = 5;
             [weakSelf.delegate statusDidChanged:status];
         });
     }];
-    [[DetectorPolicy sharedPolicy] inputHttprtt:metrics.time_HTTPRtt];
-    
+    if (metrics.time_HTTPRtt > 0 ) {
+        [[DetectorPolicy sharedPolicy] inputHttprtt:metrics.time_HTTPRtt];
+
+    }
     if (thp_batch.count >= BatchSize) { //吞吐量批量处理
         
         float batch_down_tp = 0;

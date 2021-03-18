@@ -36,18 +36,22 @@
     //@"https://img.alicdn.com/tfs/TB148AkSFXXXXa3apXXXXXXXXXX-1130-500.jpg_q100.jpg_.webp"
     //http://172.28.125.111:8888/json/startConfig.json?r=%f
     //@"http://192.168.50.93:8080/startConfig.json?r=%f"
+    //@"http://172.28.214.56:8088/startConfig.json?r=%f"
+
     [self requestOnce];
 }
 
 - (void)requestOnce {
-    [[NetworkModel sharedModel] requestWithMethod:@"GET" url:[NSString stringWithFormat:@"http://172.28.125.111:8888/json/startConfig.json?r=%f", [NSDate timeIntervalSinceReferenceDate]] params:@{}];
+    [[NetworkModel sharedModel] requestWithMethod:@"GET" url:[NSString stringWithFormat:@"http://172.28.214.56:8088/startConfig.json?r=%f", [NSDate timeIntervalSinceReferenceDate]] params:@{}];
 }
 
 - (void)requestBatch {
+    dispatch_queue_t queue = dispatch_queue_create("detect ", DISPATCH_QUEUE_CONCURRENT);
     NSInteger times = 10;
     for (int i = 0; i < times; i++) {
-        [NSThread sleepForTimeInterval:0.1];
-        [self requestOnce];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), queue, ^{
+            [self requestOnce];
+        });
     }
 }
 

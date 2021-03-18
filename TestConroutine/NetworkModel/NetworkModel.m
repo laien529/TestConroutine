@@ -31,6 +31,8 @@
     self = [super init];
     if (self) {
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        config.timeoutIntervalForRequest = 5;
+        config.timeoutIntervalForResource = 5;
         _manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:config];
         _manager.responseSerializer = [AFJSONResponseSerializer serializer];
         __weak typeof(self) weakSelf = self;
