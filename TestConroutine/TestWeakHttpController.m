@@ -12,6 +12,7 @@
 @interface TestWeakHttpController ()
 @property (weak, nonatomic) IBOutlet UILabel *lbHttpRtt;
 @property (weak, nonatomic) IBOutlet UILabel *lbThroughput;
+@property (weak, nonatomic) IBOutlet UILabel *lbNetStatus;
 
 @end
 
@@ -63,6 +64,9 @@
 #pragma - --mark NetDetectDelegate
 
 - (void)statusDidChanged:(NetStatus *)status {
+    _lbThroughput.text = status.throughput.stringValue;
+    _lbHttpRtt.text = status.httpRtt.stringValue;
+    _lbNetStatus.text = [self stringWithNetStatus:status.netStatus];
     switch (status.netStatus) {
         case NetDetectStatusWeak:{
             self.view.backgroundColor = UIColor.redColor;
@@ -84,6 +88,34 @@
         default:
             break;
     }
+}
+
+- (NSString*)stringWithNetStatus:(NetDetectStatus)detectStatus {
+    
+    NSString *statusString;
+    switch (detectStatus) {
+        case NetDetectStatusGreat:{
+            statusString = @"Great";
+            break;
+        }
+        case NetDetectStatusWeak:{
+            statusString = @"Weak";
+            break;
+        }
+        case NetDetectStatusNormal:{
+            statusString = @"Normal";
+            break;
+        }
+        case NetDetectStatusUnknown:{
+            statusString = @"Unknown";
+            break;
+        }
+        default:{
+            statusString = @"Unknown";
+            break;
+        }
+    }
+    return statusString;
 }
 
 - (void)dealloc {

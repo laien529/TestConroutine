@@ -18,6 +18,12 @@ NSString* const table_httprtt = @"httprtt";
 NSString* const table_throughput_down = @"Throughput_down";
 NSString* const table_throughput_up = @"Throughput_up";
 
+struct DetectResult {
+    NetDetectStatus status;
+    float value;
+};
+typedef struct DetectResult DetectResult;
+
 @interface DetectorPolicy () {
     NSTimer *triggerTimer;
 }
@@ -59,9 +65,12 @@ NSString* const table_throughput_up = @"Throughput_up";
         
         NetStatus *status = [[NetStatus alloc] init];
         NetDetectStatus judgedStatus = NetDetectStatusUnknown;
+
+        DetectResult httprttResult = [self detectHttprtt];
+        NetDetectStatus httprttStatus = httprttResult.status;
         
-        NetDetectStatus httprttStatus = [self detectHttprtt];
-        NetDetectStatus throughput_downStatus = [self detectThroughtput_down];
+        DetectResult throughputResult = [self detectThroughtput_down];
+        NetDetectStatus throughput_downStatus = throughputResult.status;
         
         if (httprttStatus == NetDetectStatusGreat && throughput_downStatus == NetDetectStatusGreat) {
             judgedStatus = NetDetectStatusGreat;
@@ -73,31 +82,37 @@ NSString* const table_throughput_up = @"Throughput_up";
             judgedStatus = NetDetectStatusNormal;
         }
         status.netStatus = judgedStatus;
-//        status.httpRtt = htt
+        status.httpRtt = @(httprttResult.value);
+        status.throughput = @(throughputResult.value);
         _detectResultBlock(status);
+        
         NSLog(@"judgeNetworkStatus %lu",(unsigned long)judgedStatus);
-
     }
 }
 
-- (NetDetectStatus)detectHttprtt {
+- (DetectResult)detectHttprtt {
     NSArray *httprttArray = [[DetectCache sharedCache] fetchDataByTableName:table_httprtt];
     if (httprttArray.count > 0) {
+        
         float avgHttprtt = [[httprttArray valueForKeyPath:@"@avg.floatValue"] floatValue];
         NetDetectStatus status = [self statusFromHttprttJudge:avgHttprtt];
-        return status;
+        DetectResult _result = {status, avgHttprtt};
+        return _result;
     }
-    return NetDetectStatusUnknown;
+    return (DetectResult){NetDetectStatusUnknown, 0.0};
 }
 
-- (NetDetectStatus)detectThroughtput_down {
+- (DetectResult)detectThroughtput_down {
     NSArray *throughputArray = [[DetectCache sharedCache] fetchDataByTableName:table_throughput_down];
     if (throughputArray.count > 0) {
         float avgThroughput = [[throughputArray valueForKeyPath:@"@avg.floatValue"] floatValue];
+
         NetDetectStatus status = [self statusFromThroughputJudge:avgThroughput];
-        return status;
+        DetectResult _result = {status, avgThroughput};
+
+        return _result;
     }
-    return NetDetectStatusUnknown;
+    return (DetectResult){NetDetectStatusUnknown, 0.0};
 }
 
 - (NetDetectStatus)statusFromHttprttJudge:(float)httprtt {
