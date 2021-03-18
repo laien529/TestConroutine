@@ -64,8 +64,8 @@
 #pragma - --mark NetDetectDelegate
 
 - (void)statusDidChanged:(NetStatus *)status {
-    _lbThroughput.text = status.throughput.stringValue;
-    _lbHttpRtt.text = status.httpRtt.stringValue;
+    _lbThroughput.text = [NSString stringWithFormat:@"%.3f MB/s", status.throughput.floatValue];
+    _lbHttpRtt.text = [NSString stringWithFormat:@"%.1f ms", status.httpRtt.floatValue * 1000];
     _lbNetStatus.text = [self stringWithNetStatus:status.netStatus];
     switch (status.netStatus) {
         case NetDetectStatusWeak:{
