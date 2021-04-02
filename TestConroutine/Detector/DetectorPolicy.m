@@ -59,8 +59,18 @@ typedef struct DetectResult DetectResult;
 }
 
 - (void)startDetectTrigger {
-    triggerTimer = [NSTimer scheduledTimerWithTimeInterval:triggerInterval repeats:YES block:^(NSTimer * _Nonnull timer) {
-        [self judgeNetworkStatus];
+    __block NSTimeInterval interval = 1;
+    __weak typeof(self) weakSelf = self;
+    triggerTimer = [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        if (interval == triggerInterval) {
+            [weakSelf judgeNetworkStatus];
+            interval = 1;
+        } else {
+            interval++;
+        }
+        if (weakSelf.timerHeartbeat) {
+            weakSelf.timerHeartbeat(interval);
+        }
     }];
     [triggerTimer fire];
 }

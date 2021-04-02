@@ -22,10 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 typedef void(^DetectResultBlock)(NetStatus *status);
+typedef void(^TimerHeartbeat)(NSTimeInterval interval);
 
 @interface DetectorPolicy : NSObject
 
 @property(nonatomic, copy) DetectResultBlock detectResultBlock;
+@property(nonatomic, copy) TimerHeartbeat timerHeartbeat;
 
 + (instancetype)sharedPolicy;
 - (void)inputOriginDatas:(DetectDataModel*)detectData;

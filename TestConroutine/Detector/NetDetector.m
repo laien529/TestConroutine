@@ -84,6 +84,9 @@ NSInteger BatchSize = 5;
             [weakSelf.delegate statusDidChanged:status];
         });
     }];
+    [[DetectorPolicy sharedPolicy] setTimerHeartbeat:^(NSTimeInterval interval) {
+        [weakSelf.delegate detectTimerHeartBeat:interval];
+    }];
     if (metrics.time_HTTPRtt > 0 ) {
         [[DetectorPolicy sharedPolicy] inputHttprtt:metrics.time_HTTPRtt];
 
