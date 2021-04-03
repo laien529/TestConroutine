@@ -24,6 +24,8 @@ typedef NS_ENUM(NSUInteger, NetDetectStatus) {
 
 - (void)statusDidChanged:(NetStatus*)status;
 
+- (void)detectTimerHeartBeat:(NSTimeInterval)interval;
+
 
 @end
 

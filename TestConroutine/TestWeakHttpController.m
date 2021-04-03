@@ -17,10 +17,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbGreatHttpThreshold;
 @property (weak, nonatomic) IBOutlet UILabel *lbWeakThroughputThreshold;
 @property (weak, nonatomic) IBOutlet UILabel *lbGreatThroughputThreshold;
+@property (weak, nonatomic) IBOutlet UILabel *lbTimerHeartbeat;
 @property (weak, nonatomic) IBOutlet UISlider *sliderWeakHttprtt;
 @property (weak, nonatomic) IBOutlet UISlider *sliderGreatHttprtt;
 @property (weak, nonatomic) IBOutlet UISlider *sliderWeakThroughput;
 @property (weak, nonatomic) IBOutlet UISlider *sliderGreatThroughput;
+
 @end
 
 @implementation TestWeakHttpController
@@ -86,7 +88,7 @@
 }
 
 - (void)requestOnce {
-    [[NetworkModel sharedModel] requestWithMethod:@"GET" url:[NSString stringWithFormat:@"http://192.168.50.93:8080/startConfig.json?r=%f", [NSDate timeIntervalSinceReferenceDate]] params:@{}];
+    [[NetworkModel sharedModel] requestWithMethod:@"GET" url:[NSString stringWithFormat:@"http://172.28.219.9:8888/json/startConfig.json?r=%f", [NSDate timeIntervalSinceReferenceDate]] params:@{}];
 }
 
 - (void)requestBatch {
@@ -126,6 +128,11 @@
         default:
             break;
     }
+}
+
+- (void)detectTimerHeartBeat:(NSTimeInterval)interval {
+    NSLog(@"Heartbeat: %f", interval);
+    _lbTimerHeartbeat.text = [NSString stringWithFormat:@"%.f seconds", 10 - interval];
 }
 
 - (NSString*)stringWithNetStatus:(NetDetectStatus)detectStatus {
